@@ -19,33 +19,45 @@ export class ShoppingCartService {
    * @param prduct
    *
    */
+
   addToCart(product: Product) {
     this.getOrCreateCartId().then(cartId => {
       console.log('cartId:' + cartId);
-      const pathProduct = 'shopping-cart/' + cartId + '/' + product.id;
-      this.getProductInCart(
-        pathProduct
-      ).subscribe(prod => {
-        console.log('product found', prod);
-        if (!prod[0]) {
-          this.shopCartDb
-            .collection(pathProduct)
-            .add({
-              title: product.title,
-              price: product.price,
-              quantity: 1
-            }).then(docref => localStorage.setItem(product.id, docref.id ));
-        } else {
-            const pathDoc = pathProduct + '/' + localStorage.getItem(product.id);
-            console.log(' path document' + pathDoc);
-            this.shopCartDb.doc(pathDoc).update({
-             quantity: prod[0].quantity + 1
-           });
-         }
-      });
-    });
-  }
+      const pathProduct = 'shopping-cart/' + cartId + '/items/' + product.id;
+      this.shopCartDb.collection('shopping-cart/' + cartId + '/items/').doc(product.id)
+          .valueChanges().take(1).subscribe( prod => {
+            console.log('product ', prod);
+            if ( !prod) {
+              this.shopCartDb
+              .collection('shopping-cart/' + cartId + '/items/').doc(product.id)
+              .set({
+                id: product.id,
+                title: product.title,
+                price: product.price,
+                quantity: 1
+              });
+                  // localStorage.setItem(product.id, docref.id ));
+            } else {
+              this.shopCartDb
+              .collection('shopping-cart/' + cartId + '/items/').doc(product.id)
+              .set({
+                id: product.id,
+                title: product.title,
+                price: product.price,
+                quantity: prod.quantity + 1
+              });
 
+            }
+
+          });
+
+      });
+  }
+  /**
+   * get cart id
+   *
+   *
+   */
   private async getOrCreateCartId() {
     const cartId = localStorage.getItem('cartId');
     if (cartId) {
@@ -55,15 +67,22 @@ export class ShoppingCartService {
     localStorage.setItem('cartId', cart.id);
     return cart.id;
   }
-
-  private getProductInCart(path): Observable<any> {
-    const cartResult: AngularFirestoreCollection<
-      any
-    > = this.shopCartDb.collection(path);
-
-    return cartResult.valueChanges().take(1);
+  /**
+   * create cart if not there
+   *
+   */
+  private createCart() {
+    return this.shopCartDb.collection('shopping-cart').add({
+      dateCreated: new Date().getTime()
+    });
   }
-
+  /**
+   * Get cart currently not used
+   *
+   *
+   * @param cartId
+   *
+   */
   private getCart(cartId): Observable<any> {
     const cartResult: AngularFirestoreDocument<any> = this.shopCartDb.doc(
       'shopping-cart/' + cartId
@@ -71,9 +90,5 @@ export class ShoppingCartService {
     return cartResult.valueChanges();
   }
 
-  private createCart() {
-    return this.shopCartDb.collection('shopping-cart').add({
-      dateCreated: new Date().getTime()
-    });
-  }
+
 }
