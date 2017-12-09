@@ -1,9 +1,10 @@
-<div class="card" style="width: 20rem;" >
-  <img class="card-img-top" [src]="product.imageUrl" alt="Card image cap">
+<div class="card"  *ngIf="product.title" >
+  <img class="card-img-top"  *ngIf="product.imageUrl"
+      [src]="product.imageUrl" alt="product.title">
   <div class="card-body">
     <h4 class="card-title">{{product.title}}</h4>
     <p class="card-text">
       <p>{{product.price|currency:'USD':'symbol'}}</p>
-      <a href="#" class="btn btn-primary">Add to cart</a>
+      <a *ngIf="showActions" href="#" class="btn btn-primary" >Add to cart</a>
   </div>
 </div>
