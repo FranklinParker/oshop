@@ -1,0 +1,9 @@
+<div class="card" style="width: 20rem;" >
+  <img class="card-img-top" [src]="product.imageUrl" alt="Card image cap">
+  <div class="card-body">
+    <h4 class="card-title">{{product.title}}</h4>
+    <p class="card-text">
+      <p>{{product.price|currency:'USD':'symbol'}}</p>
+      <a href="#" class="btn btn-primary">Add to cart</a>
+  </div>
+</div>

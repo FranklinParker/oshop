@@ -1,0 +1,9 @@
+<div class="list-group">
+  <a class="list-group-item list-group-item list-group-item-active" routerLink='/'
+      [class.active]="!category">All</a>
+
+  <a *ngFor="let cat of categories" class="list-group-item list-group-item-active"
+    routerLink='/' [queryParams]="{category:cat.id}"
+    [class.active]='cat.id===category'>
+    {{cat.name}}</a>
+</div>
