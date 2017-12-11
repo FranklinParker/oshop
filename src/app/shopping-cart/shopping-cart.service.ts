@@ -131,4 +131,12 @@ removeFromCart(product: Product) {
       return items;
     });
   }
+
+  getShoppingCart(cartId): Observable<ShoppingCart> {
+    return this.shopCartDb.doc('shopping-cart/' + cartId ).valueChanges()
+      .map((data: ShoppingCart) => {
+      const cart: ShoppingCart = data;
+      return cart;
+    });
+  }
 }
