@@ -1,3 +1,4 @@
+import { ShoppingCartItem } from './shopping-cart-item';
 import { Product } from './../products/product';
 import { Injectable } from '@angular/core';
 import {
@@ -7,11 +8,41 @@ import {
 } from 'angularfire2/firestore';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/take';
+import 'rxjs/add/operator/map';
+import { ShoppingCart } from './shopping-cart';
 
 @Injectable()
 export class ShoppingCartService {
-  constructor(private shopCartDb: AngularFirestore) {}
 
+
+  constructor(private shopCartDb: AngularFirestore) {}
+/**
+ * add to cart
+ *
+ *
+ * @param product
+ */
+ addToCart(product: Product) {
+   this.addToRemoveFromCart(product, 1);
+ }
+/**
+ * get the cart id
+ *
+ */
+  getCartId() {
+
+    return this.getOrCreateCartId();
+
+  }
+ /**
+ * remove to cart
+ *
+ *
+ * @param product
+ */
+removeFromCart(product: Product) {
+  this.addToRemoveFromCart(product, -1);
+}
   /**
    *  add to cart or create cart
    *
@@ -20,23 +51,48 @@ export class ShoppingCartService {
    *
    */
 
-  addToCart(product: Product) {
+  private addToRemoveFromCart(product: Product, nbrItems: number) {
     this.getOrCreateCartId().then(cartId => {
-      console.log('cartId:' + cartId);
-      this.shopCartDb.collection('shopping-cart/' + cartId + '/items/')
-        .doc(product.id).valueChanges().take(1)
+      this.getProductCart(cartId, product.id)
         .subscribe(prod => {
-          console.log('product ', prod);
-          const quantity = prod ? prod.quantity + 1 : 1;
-          this.shopCartDb
-            .collection('shopping-cart/' + cartId + '/items/').doc(product.id).set({
-              id: product.id,
-              title: product.title,
-              price: product.price,
+          const quantity = prod ? prod.quantity + nbrItems : (0) + nbrItems;
+          if (quantity > -1) {
+            this.shopCartDb.collection('shopping-cart/' + cartId + '/items/')
+              .doc(product.id).set({
+              product: product
               quantity: quantity
             });
+          }
         });
     });
+  }
+
+
+  /**
+   * gets the count of a shopping cart by pro
+   *
+   *
+   * @param productId
+   */
+  getCartProductCount(productId: string)  {
+    const cartId = localStorage.getItem('cartId');
+
+    return  this.getProductCart( cartId , productId).map(cart => {
+      return cart ? cart.quantity : 0;
+    });
+
+
+
+  }
+/**
+ * get cart for product
+ *
+ * @param cartId
+ * @param productId
+ */
+  private getProductCart(cartId: string, productId: string) {
+    return this.shopCartDb.collection('shopping-cart/' + cartId + '/items/')
+    .doc(productId).valueChanges().take(1);
   }
   /**
    * get cart id
@@ -62,16 +118,17 @@ export class ShoppingCartService {
     });
   }
   /**
-   * Get cart currently not used
+   * Get cart items
    *
    *
    * @param cartId
    *
    */
-  private getCart(cartId): Observable<any> {
-    const cartResult: AngularFirestoreDocument<any> = this.shopCartDb.doc(
-      'shopping-cart/' + cartId
-    );
-    return cartResult.valueChanges();
+   getCartItems(cartId): Observable<ShoppingCartItem[]> {
+    return this.shopCartDb.collection('shopping-cart/' + cartId + '/items').valueChanges()
+      .map((data: ShoppingCartItem[]) => {
+      const items: ShoppingCartItem[] = data;
+      return items;
+    });
   }
 }

@@ -36,7 +36,6 @@ export class ProductsComponent implements OnDestroy {
 
   ngOnDestroy() {}
   filterByCategory(categoryName: string) {
-    console.log('CategoryName:' + categoryName);
     this.filteredProducts =
       !categoryName
         ? this.products
