@@ -35,7 +35,6 @@ export class BsNavbarComponent implements OnInit {
     this.cartService
     .getShoppingCart()
     .subscribe((cart: ShoppingCart) => {
-      console.log('totalInCart:' + cart.totalIemsInCart);
       this.totalItemsInCart = cart.totalIemsInCart;
     });
   }

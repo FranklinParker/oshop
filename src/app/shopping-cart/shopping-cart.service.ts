@@ -26,7 +26,7 @@ export class ShoppingCartService {
  * @param product
  */
  addToCart(product: Product) {
-   this.addToRemoveFromCart(product, 1);
+   return this.addToRemoveFromCart(product, 1);
  }
 /**
  * get the cart id
@@ -118,7 +118,10 @@ removeFromCart(product: Product) {
   private getCartIdObservable(): Observable<any> {
     return  Observable.fromPromise(this.getCartId());
   }
-
+/**
+ *  Get shopping cart
+ *
+ */
   getShoppingCart(): Observable<ShoppingCart> {
 
     return this.getCartIdObservable().switchMap( (cartId: string) =>
