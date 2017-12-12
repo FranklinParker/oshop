@@ -9,16 +9,11 @@ import { ShoppingCart } from './shopping-cart';
 })
 export class ShoppingCartComponent implements OnInit {
   cart: ShoppingCart;
-  constructor(private cartService: ShoppingCartService) { }
+  constructor(private cartService: ShoppingCartService) {}
 
   ngOnInit() {
-    this.cartService.getCartId().then(cartId => {
-      this.cartService
-        .getShoppingCart(cartId)
-        .subscribe((cart: ShoppingCart) => {
-          this.cart = cart;
-        });
+    this.cartService.getShoppingCart().subscribe((cart: ShoppingCart) => {
+      this.cart = cart;
     });
   }
-
 }

@@ -33,9 +33,7 @@ export class ShoppingCartService {
  *
  */
   getCartId() {
-
     return this.getOrCreateCartId();
-
   }
  /**
  * remove to cart
@@ -69,8 +67,6 @@ removeFromCart(product: Product) {
         });
     });
   }
-
-
   /**
    * gets the count of a shopping cart by pro
    *
@@ -117,29 +113,25 @@ removeFromCart(product: Product) {
       dateCreated: new Date().getTime()
     });
   }
-  /**
-   * Get cart items
-   *
-   *
-   * @param cartId
-   *
-   */
-   getCartItems(cartId): Observable<ShoppingCartItem[]> {
-    return this.shopCartDb.collection('shopping-cart/' + cartId + '/items').valueChanges()
-      .map((data: ShoppingCartItem[]) => {
-      const items: ShoppingCartItem[] = data;
-      return items;
-    });
+
+
+  private getCartIdObservable(): Observable<any> {
+    return  Observable.fromPromise(this.getCartId());
   }
 
-  getShoppingCart(cartId): Observable<ShoppingCart> {
-    return this.shopCartDb.collection('shopping-cart/' + cartId + '/items').valueChanges()
+  getShoppingCart(): Observable<ShoppingCart> {
+
+    return this.getCartIdObservable().switchMap( (cartId: string) =>
+       this.shopCartDb.collection('shopping-cart/' + cartId + '/items')
+      .valueChanges()
       .map((items: ShoppingCartItem[]) => {
         const cartItems: ShoppingCartItem[] = [];
         items.forEach(item => cartItems.push( new ShoppingCartItem(item.product, item.quantity)) );
          const cart = new ShoppingCart(cartItems);
          return cart;
-    });
+        })
+      );
+
   }
 
 }

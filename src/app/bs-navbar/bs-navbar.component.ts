@@ -32,12 +32,11 @@ export class BsNavbarComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.cartService.getCartId().then(cartId => {
-      this.cartService
-        .getShoppingCart(cartId)
-        .subscribe((cart: ShoppingCart) => {
-          this.totalItemsInCart = cart.totalIemsInCart;
-        });
+    this.cartService
+    .getShoppingCart()
+    .subscribe((cart: ShoppingCart) => {
+      console.log('totalInCart:' + cart.totalIemsInCart);
+      this.totalItemsInCart = cart.totalIemsInCart;
     });
   }
 
