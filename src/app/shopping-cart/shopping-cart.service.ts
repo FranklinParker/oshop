@@ -80,9 +80,6 @@ removeFromCart(product: Product) {
     return  this.getProductCart( cartId , productId).map(cart => {
       return cart ? cart.quantity : 0;
     });
-
-
-
   }
 /**
  * get cart for product
@@ -133,10 +130,10 @@ removeFromCart(product: Product) {
   }
 
   getShoppingCart(cartId): Observable<ShoppingCart> {
-    return this.shopCartDb.doc('shopping-cart/' + cartId ).valueChanges()
-      .map((data: ShoppingCart) => {
-      const cart: ShoppingCart = data;
-      return cart;
+    return this.shopCartDb.collection('shopping-cart/' + cartId + '/items').valueChanges()
+      .map((items: ShoppingCartItem[]) => {
+         const cart = new ShoppingCart(items);
+         return cart;
     });
   }
 }

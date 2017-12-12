@@ -1,3 +1,5 @@
-<p>
-  shopping-cart works!
-</p>
+<div class="container" *ngIf="cart">
+  <div class="row"  *ngFor="let item of cart.shoppingCartItems" >
+    <div class="col">{{item.product.title}}</div>
+  </div>
+</div>

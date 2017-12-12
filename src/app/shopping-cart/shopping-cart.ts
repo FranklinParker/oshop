@@ -2,6 +2,13 @@ import { ShoppingCartItem } from './shopping-cart-item';
 
 
 
-export interface ShoppingCart {
-  shoppingCartItems: ShoppingCartItem[];
+export class ShoppingCart {
+
+  constructor(public shoppingCartItems: ShoppingCartItem[] ){}
+
+  get totalIemsInCart(){
+    let count = 0;
+    this.shoppingCartItems.forEach( item => count += item.quantity);
+    return count;
+  }
 }

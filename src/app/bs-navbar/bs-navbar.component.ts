@@ -34,10 +34,9 @@ export class BsNavbarComponent implements OnInit {
   ngOnInit() {
     this.cartService.getCartId().then(cartId => {
       this.cartService
-        .getCartItems(cartId)
-        .subscribe((items: ShoppingCartItem[]) => {
-          this.totalItemsInCart = 0;
-          items.forEach(item => this.totalItemsInCart = this.totalItemsInCart + item.quantity);
+        .getShoppingCart(cartId)
+        .subscribe((cart: ShoppingCart) => {
+          this.totalItemsInCart = cart.totalIemsInCart;
         });
     });
   }
