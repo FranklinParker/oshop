@@ -57,13 +57,13 @@ removeFromCart(product: Product) {
   private addToRemoveFromCart(product: Product, nbrItems: number) {
     this.getOrCreateCartId().then(cartId => {
       this.getProductCart(cartId, product.id)
-        .subscribe(prod => {
-          const quantity = prod ? prod.quantity + nbrItems : (0) + nbrItems;
-          if (quantity > -1) {
+        .subscribe( (prod: ShoppingCartItem)  => {
+          const qty = prod ? prod.quantity + nbrItems : (0) + nbrItems;
+          if (qty > -1) {
             this.shopCartDb.collection('shopping-cart/' + cartId + '/items/')
               .doc(product.id).set({
-              product: product
-              quantity: quantity
+              product: product,
+              quantity: qty
             });
           }
         });
@@ -80,7 +80,7 @@ removeFromCart(product: Product) {
   getCartProductCount(productId: string)  {
     const cartId = localStorage.getItem('cartId');
 
-    return  this.getProductCart( cartId , productId).map(cart => {
+    return  this.getProductCart( cartId , productId).map((cart: ShoppingCartItem) => {
       return cart ? cart.quantity : 0;
     });
   }
