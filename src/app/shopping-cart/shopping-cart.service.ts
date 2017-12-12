@@ -9,7 +9,10 @@ import {
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/take';
 import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/switchmap';
+
 import { ShoppingCart } from './shopping-cart';
+import { Subscription } from 'rxjs/Subscription';
 
 @Injectable()
 export class ShoppingCartService {
@@ -132,8 +135,11 @@ removeFromCart(product: Product) {
   getShoppingCart(cartId): Observable<ShoppingCart> {
     return this.shopCartDb.collection('shopping-cart/' + cartId + '/items').valueChanges()
       .map((items: ShoppingCartItem[]) => {
-         const cart = new ShoppingCart(items);
+        const cartItems: ShoppingCartItem[] = [];
+        items.forEach(item => cartItems.push( new ShoppingCartItem(item.product, item.quantity)) );
+         const cart = new ShoppingCart(cartItems);
          return cart;
     });
   }
+
 }

@@ -1,8 +1,7 @@
 import { Subscription } from 'rxjs/Subscription';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ProductService } from './product.service';
 import { Product } from './product';
-import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 import { Category } from './category';
 import { ActivatedRoute } from '@angular/router';
 import 'rxjs/add/operator/switchMap';
@@ -27,7 +26,6 @@ export class ProductsComponent implements OnDestroy {
       })
       .subscribe(params => {
         this.selCategory = params.get('category');
-
         this.filterByCategory(this.selCategory);
 
       });
