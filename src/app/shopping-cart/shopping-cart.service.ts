@@ -9,7 +9,7 @@ import {
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/take';
 import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/switchmap';
+import 'rxjs/add/operator/switchMap';
 
 import { ShoppingCart } from './shopping-cart';
 import { Subscription } from 'rxjs/Subscription';
