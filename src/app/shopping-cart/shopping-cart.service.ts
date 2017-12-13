@@ -16,34 +16,47 @@ import { Subscription } from 'rxjs/Subscription';
 
 @Injectable()
 export class ShoppingCartService {
-
-
   constructor(private shopCartDb: AngularFirestore) {}
-/**
- * add to cart
- *
- *
- * @param product
- */
- addToCart(product: Product) {
-   return this.addToRemoveFromCart(product, 1);
- }
-/**
- * get the cart id
- *
- */
+  /**
+   * add to cart
+   *
+   *
+   * @param product
+   */
+  addToCart(product: Product) {
+    return this.addToRemoveFromCart(product, 1);
+  }
+  /**
+   * deletes contents of cart
+   *
+   *
+   */
+  clearCart() {
+    this.getCartIdObservable().subscribe(cartId =>
+     this.getShoppingCartItems()
+      .subscribe((items: ShoppingCartItem[]) =>
+         items.forEach(item => this.shopCartDb
+            .collection('shopping-cart/' + cartId + '/items/').doc( item.product.id)
+                    .delete() )
+    ));
+
+  }
+  /**
+   * get the cart id
+   *
+   */
   getCartId() {
     return this.getOrCreateCartId();
   }
- /**
- * remove to cart
- *
- *
- * @param product
- */
-removeFromCart(product: Product) {
-  this.addToRemoveFromCart(product, -1);
-}
+  /**
+   * remove to cart
+   *
+   *
+   * @param product
+   */
+  removeFromCart(product: Product) {
+    this.addToRemoveFromCart(product, -1);
+  }
   /**
    *  add to cart or create cart
    *
@@ -54,17 +67,25 @@ removeFromCart(product: Product) {
 
   private addToRemoveFromCart(product: Product, nbrItems: number) {
     this.getOrCreateCartId().then(cartId => {
-      this.getProductCart(cartId, product.id)
-        .subscribe( (prod: ShoppingCartItem)  => {
-          const qty = prod ? prod.quantity + nbrItems : (0) + nbrItems;
-          if (qty > -1) {
-            this.shopCartDb.collection('shopping-cart/' + cartId + '/items/')
-              .doc(product.id).set({
-              product: product,
-              quantity: qty
-            });
+      this.getProductCart(cartId, product.id).subscribe(
+        (prod: ShoppingCartItem) => {
+          const qty = prod ? prod.quantity + nbrItems : 0 + nbrItems;
+          if (qty > 0) {
+            this.shopCartDb
+              .collection('shopping-cart/' + cartId + '/items/')
+              .doc(product.id)
+              .set({
+                product: product,
+                quantity: qty
+              });
+          } else {
+            this.shopCartDb
+            .collection('shopping-cart/' + cartId + '/items/')
+            .doc(product.id).delete();
+
           }
-        });
+        }
+      );
     });
   }
   /**
@@ -73,22 +94,27 @@ removeFromCart(product: Product) {
    *
    * @param productId
    */
-  getCartProductCount(productId: string)  {
+  getCartProductCount(productId: string) {
     const cartId = localStorage.getItem('cartId');
 
-    return  this.getProductCart( cartId , productId).map((cart: ShoppingCartItem) => {
-      return cart ? cart.quantity : 0;
-    });
+    return this.getProductCart(cartId, productId).map(
+      (cart: ShoppingCartItem) => {
+        return cart ? cart.quantity : 0;
+      }
+    );
   }
-/**
- * get cart for product
- *
- * @param cartId
- * @param productId
- */
+  /**
+   * get cart for product
+   *
+   * @param cartId
+   * @param productId
+   */
   private getProductCart(cartId: string, productId: string) {
-    return this.shopCartDb.collection('shopping-cart/' + cartId + '/items/')
-    .doc(productId).valueChanges().take(1);
+    return this.shopCartDb
+      .collection('shopping-cart/' + cartId + '/items/')
+      .doc(productId)
+      .valueChanges()
+      .take(1);
   }
   /**
    * get cart id
@@ -113,28 +139,44 @@ removeFromCart(product: Product) {
       dateCreated: new Date().getTime()
     });
   }
-
-
-  private getCartIdObservable(): Observable<any> {
-    return  Observable.fromPromise(this.getCartId());
-  }
 /**
- *  Get shopping cart
  *
  */
+  getCartIdObservable(): Observable<any> {
+    return Observable.fromPromise(this.getCartId());
+  }
+  /**
+   *  Get shopping cart
+   *
+   */
   getShoppingCart(): Observable<ShoppingCart> {
-
-    return this.getCartIdObservable().switchMap( (cartId: string) =>
-       this.shopCartDb.collection('shopping-cart/' + cartId + '/items')
-      .valueChanges()
-      .map((items: ShoppingCartItem[]) => {
-        const cartItems: ShoppingCartItem[] = [];
-        items.forEach(item => cartItems.push( new ShoppingCartItem(item.product, item.quantity)) );
-         const cart = new ShoppingCart(cartItems);
-         return cart;
+    return this.getCartIdObservable().switchMap((cartId: string) =>
+      this.shopCartDb
+        .collection('shopping-cart/' + cartId + '/items')
+        .valueChanges()
+        .map((items: ShoppingCartItem[]) => {
+          const cartItems: ShoppingCartItem[] = [];
+          items.forEach(item =>
+            cartItems.push(new ShoppingCartItem(item.product, item.quantity))
+          );
+          const cart = new ShoppingCart(cartItems);
+          return cart;
         })
-      );
-
+    );
   }
 
+  /**
+   *  Get shopping cart
+   *
+   */
+  getShoppingCartItems(): Observable<ShoppingCartItem[]> {
+    return this.getCartIdObservable().switchMap((cartId: string) =>
+      this.shopCartDb
+        .collection('shopping-cart/' + cartId + '/items')
+        .valueChanges()
+        .map((items: ShoppingCartItem[]) => {
+          return items;
+        })
+    );
+  }
 }
