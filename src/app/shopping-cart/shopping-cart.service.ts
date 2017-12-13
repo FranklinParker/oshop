@@ -36,8 +36,7 @@ export class ShoppingCartService {
      this.getShoppingCartItems()
       .subscribe((items: ShoppingCartItem[]) =>
          items.forEach(item => this.shopCartDb
-            .collection('shopping-cart/' + cartId + '/items/').doc( item.product.id)
-                    .delete() )
+          .doc('shopping-cart/' + cartId + '/items/' + item.product.id).delete())
     ));
 
   }
