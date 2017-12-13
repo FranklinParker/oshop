@@ -72,8 +72,7 @@ export class ShoppingCartService {
           const qty = prod ? prod.quantity + nbrItems : 0 + nbrItems;
           if (qty > 0) {
             this.shopCartDb
-              .collection('shopping-cart/' + cartId + '/items/')
-              .doc(product.id)
+              .doc('shopping-cart/' + cartId + '/items/' + product.id)
               .set({
                 product: product,
                 quantity: qty
