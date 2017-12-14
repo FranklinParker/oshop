@@ -32,13 +32,20 @@ export class ShoppingCartService {
    *
    */
   clearCart() {
-    this.getCartIdObservable().subscribe(cartId =>
-     this.getShoppingCartItems()
-      .subscribe((items: ShoppingCartItem[]) =>
-         items.forEach(item => this.shopCartDb
-          .doc('shopping-cart/' + cartId + '/items/' + item.product.id).delete())
-    ));
-
+    this.getShoppingCartItems().subscribe(cartItems =>
+      cartItems.items.forEach(item =>
+        this.deleteItemFromCart(cartItems.cartId, item.product.id)
+      )
+    );
+  }
+  /**
+   *
+   *
+   */
+  deleteItemFromCart(cartId: string, productId: string) {
+    this.shopCartDb
+      .doc('shopping-cart/' + cartId + '/items/' + productId)
+      .delete();
   }
   /**
    * get the cart id
@@ -77,10 +84,7 @@ export class ShoppingCartService {
                 quantity: qty
               });
           } else {
-            this.shopCartDb
-            .collection('shopping-cart/' + cartId + '/items/')
-            .doc(product.id).delete();
-
+            this.deleteItemFromCart(cartId, product.id);
           }
         }
       );
@@ -137,9 +141,9 @@ export class ShoppingCartService {
       dateCreated: new Date().getTime()
     });
   }
-/**
- *
- */
+  /**
+   *
+   */
   getCartIdObservable(): Observable<any> {
     return Observable.fromPromise(this.getCartId());
   }
@@ -148,32 +152,33 @@ export class ShoppingCartService {
    *
    */
   getShoppingCart(): Observable<ShoppingCart> {
-    return this.getCartIdObservable().switchMap((cartId: string) =>
-      this.shopCartDb
-        .collection('shopping-cart/' + cartId + '/items')
-        .valueChanges()
-        .map((items: ShoppingCartItem[]) => {
-          const cartItems: ShoppingCartItem[] = [];
-          items.forEach(item =>
-            cartItems.push(new ShoppingCartItem(item.product, item.quantity))
-          );
-          const cart = new ShoppingCart(cartItems);
-          return cart;
-        })
-    );
+    return this.getShoppingCartItems().map(cartItems => {
+      const items: ShoppingCartItem[] = [];
+      cartItems.items.forEach(item =>
+        items.push(new ShoppingCartItem(item.product, item.quantity))
+      );
+      const cart = new ShoppingCart(items);
+      return cart;
+    });
   }
 
   /**
    *  Get shopping cart
    *
    */
-  getShoppingCartItems(): Observable<ShoppingCartItem[]> {
+  getShoppingCartItems(): Observable<{
+    cartId: string;
+    items: ShoppingCartItem[];
+  }> {
     return this.getCartIdObservable().switchMap((cartId: string) =>
       this.shopCartDb
         .collection('shopping-cart/' + cartId + '/items')
         .valueChanges()
         .map((items: ShoppingCartItem[]) => {
-          return items;
+          return {
+            cartId: cartId,
+            items: items
+          };
         })
     );
   }
