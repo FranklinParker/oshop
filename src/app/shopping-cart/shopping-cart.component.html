@@ -1,6 +1,10 @@
 <h1>Shopping Cart</h1>
 <div class="col-10" *ngIf="cart">
-  <p>Total Items in Cart {{cart.totalIemsInCart}}</p>
+  <p>Total Items in Cart {{cart.totalIemsInCart}}
+    <button *ngIf="cart.totalIemsInCart>0" class="btn btn-light btn-sm" (click)="clearCart()">
+      Clear Cart</button>
+
+  </p>
   <table class="table">
     <thead>
       <th></th>
@@ -11,10 +15,12 @@
     </thead>
     <tbody>
       <tr *ngFor="let item of cart.shoppingCartItems">
-        <td><img [src]="item.product.imageUrl"   class="thumbnail" alt=""></td>
+        <td>
+          <img [src]="item.product.imageUrl" class="thumbnail" alt="">
+        </td>
         <td>{{item.product.title}}</td>
         <td style="width:230px">
-           <app-product-quantity [product]="item.product"></app-product-quantity>
+          <app-product-quantity [product]="item.product"></app-product-quantity>
         </td>
         <td class="text-right">{{item.product.price|currency:'USD':'symbol'}}</td>
         <td class="text-right">{{item.totalPrice |currency:'USD':'symbol'}}</td>
@@ -30,5 +36,7 @@
       </tr>
     </tfoot>
   </table>
-  <button class="btn btn-danger btn-sm" (click)="clearCart()">Clear Cart</button>
+  <a *ngIf="cart.totalIemsInCart>0" class="btn btn-primary" routerLink="/check-out">
+      Check Out</a>
+
 </div>

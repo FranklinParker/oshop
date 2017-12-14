@@ -4,3 +4,10 @@
   border-radius: 100%;
   background-size: cover;
 }
+ .btn {
+   margin: 10px;
+ }
+
+ .move-to-right{
+   margin-left: 150px;
+ }
