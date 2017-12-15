@@ -1,6 +1,6 @@
 import { Product } from './../../products/product';
 import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit } from '@angular/core';
-import { ProductService } from '../../products/product.service';
+import { ProductService } from '../../shared/services/product.service';
 import { Subscription } from 'rxjs/Subscription';
 import { MatTableDataSource, MatPaginator } from '@angular/material';
 import { Router } from '@angular/router';

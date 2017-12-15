@@ -1,5 +1,5 @@
 import { MatCompenentsModule } from './mat-compenents.module';
-import { ProductService } from './products/product.service';
+import { ProductService } from './shared/services/product.service';
 import { environment } from './../environments/environment';
 
 import { BrowserModule } from '@angular/platform-browser';
