@@ -2,7 +2,7 @@ import { Observable } from 'rxjs/Observable';
 import { ShoppingCartService } from './shopping-cart.service';
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from 'angularfire2/firestore';
-import { Order } from '../../order/order';
+import { Order } from '../models/order';
 
 @Injectable()
 export class OrderService {

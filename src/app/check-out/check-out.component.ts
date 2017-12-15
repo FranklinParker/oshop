@@ -2,7 +2,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { ShoppingCartService } from '../shared/services/shopping-cart.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { ShoppingCart } from '../shopping-cart/shopping-cart';
+import { ShoppingCart } from '../shared/models/shopping-cart';
 
 @Component({
   selector: 'app-check-out',

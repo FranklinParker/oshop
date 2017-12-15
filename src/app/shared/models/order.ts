@@ -1,5 +1,5 @@
-import { ShoppingCart } from '../shopping-cart/shopping-cart';
-import { ShoppingCartItem } from '../shopping-cart/shopping-cart-item';
+import { ShoppingCart } from './shopping-cart';
+import { ShoppingCartItem } from './shopping-cart-item';
 
 export class Order {
   public orderPlaced: number;

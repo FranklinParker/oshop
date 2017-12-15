@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { UserService } from './user/user.service';
+import { UserService } from './shared/services/user.service';
 import { Router } from '@angular/router';
 import { Component } from '@angular/core';
 import { AuthService } from './shared/services/auth.service';

@@ -5,8 +5,8 @@ import {
   AngularFirestoreDocument
 } from 'angularfire2/firestore';
 import 'rxjs/add/operator/map';
-import { Category } from '../../products/category';
-import { Product } from '../../products/product';
+import { Category } from '../models/category';
+import { Product } from '../models/product';
 
 @Injectable()
 export class ProductService {

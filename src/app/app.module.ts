@@ -25,7 +25,7 @@ import { AdminOrdersComponent } from './admin/admin-orders/admin-orders.componen
 import { LoginComponent } from './login/login.component';
 import { AuthService } from './shared/services/auth.service';
 import { AuthGuard } from './shared/services/auth-guard.service';
-import { UserService } from './user/user.service';
+import { UserService } from './shared/services/user.service';
 import { AdminAuthGuardService } from './user/admin-auth-guard.service';
 import { ProductFormComponent } from './admin/product-form/product-form.component';
 import { FormsModule } from '@angular/forms';

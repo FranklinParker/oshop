@@ -1,7 +1,7 @@
 import { OrderService } from '../shared/services/order.service';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../shared/services/auth.service';
-import { Order } from '../order/order';
+import { Order } from '../shared/models/order';
 
 @Component({
   selector: 'app-my-orders',
