@@ -1,7 +1,7 @@
 import { Subscription } from 'rxjs/Subscription';
 import { ShoppingCartComponent } from './../shopping-cart/shopping-cart.component';
 import { UserService } from './../user/user.service';
-import { AuthService } from './../auth.service';
+import { AuthService } from '../shared/services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { User } from '../user/user';
 import { ShoppingCartService } from '../shopping-cart/shopping-cart.service';

@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { UserService } from './user/user.service';
 import { Router } from '@angular/router';
 import { Component } from '@angular/core';
-import { AuthService } from './auth.service';
+import { AuthService } from './shared/services/auth.service';
 
 @Component({
   selector: 'app-root',

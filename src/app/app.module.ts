@@ -23,7 +23,7 @@ import { MyOrdersComponent } from './my-orders/my-orders.component';
 import { AdminProductsComponent } from './admin/admin-products/admin-products.component';
 import { AdminOrdersComponent } from './admin/admin-orders/admin-orders.component';
 import { LoginComponent } from './login/login.component';
-import { AuthService } from './auth.service';
+import { AuthService } from './shared/services/auth.service';
 import { AuthGuard } from './shared/services/auth-guard.service';
 import { UserService } from './user/user.service';
 import { AdminAuthGuardService } from './user/admin-auth-guard.service';
@@ -35,7 +35,7 @@ import { ProductFilterComponent } from './products/product-filter/product-filter
 import { ProductCardComponent } from './product-card/product-card.component';
 import { ShoppingCartService } from './shopping-cart/shopping-cart.service';
 import { ProductQuantityComponent } from './product-quantity/product-quantity.component';
-import { OrderService } from './order/order.service';
+import { OrderService } from './shared/services/order.service';
 import { ShoppingCartSummaryComponent } from './shopping-cart/shopping-cart-summary/shopping-cart-summary.component';
 import { ShippingFormComponent } from './shipping-form/shipping-form.component';
 

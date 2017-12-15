@@ -1,8 +1,8 @@
 import { Observable } from 'rxjs/Observable';
-import { ShoppingCartService } from './../shopping-cart/shopping-cart.service';
+import { ShoppingCartService } from '../../shopping-cart/shopping-cart.service';
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from 'angularfire2/firestore';
-import { Order } from './order';
+import { Order } from '../../order/order';
 
 @Injectable()
 export class OrderService {
