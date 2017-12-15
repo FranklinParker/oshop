@@ -1,5 +1,5 @@
 import { Subscription } from 'rxjs/Subscription';
-import { ShoppingCartService } from './../shopping-cart/shopping-cart.service';
+import { ShoppingCartService } from '../shared/services/shopping-cart.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ShoppingCart } from '../shopping-cart/shopping-cart';

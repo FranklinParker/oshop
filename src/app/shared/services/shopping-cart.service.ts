@@ -1,5 +1,5 @@
-import { ShoppingCartItem } from './shopping-cart-item';
-import { Product } from './../products/product';
+import { ShoppingCartItem } from '../../shopping-cart/shopping-cart-item';
+import { Product } from '../../products/product';
 import { Injectable } from '@angular/core';
 import {
   AngularFirestore,
@@ -11,7 +11,7 @@ import 'rxjs/add/operator/take';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/switchMap';
 
-import { ShoppingCart } from './shopping-cart';
+import { ShoppingCart } from '../../shopping-cart/shopping-cart';
 import { Subscription } from 'rxjs/Subscription';
 
 @Injectable()
