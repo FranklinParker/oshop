@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs/Observable';
 import { ShoppingCartService } from './../shopping-cart/shopping-cart.service';
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from 'angularfire2/firestore';
@@ -19,10 +20,19 @@ export class OrderService {
     });
   }
 
-  // return this.shopCartDb.collection('orders/' +).doc(order.userId).set({
-  //   items: order.items,
-  //   datePlaced: order.orderPlaced,
-  //   shipping: order.shipping
+  getOrders() {
+    return this.orderDb.collection('orders')
+    .valueChanges()
+    .map(orders =>  {
+      const orderArr: Order[] = [];
+      orders.forEach( (order) => {
+         const orderRec = order.order;
+         console.log('order Item ', order.order);
+         orderArr.push(orderRec);
 
-  // });
+      });
+      return orderArr;
+     } );
+  }
+
 }
