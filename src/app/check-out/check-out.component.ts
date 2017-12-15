@@ -6,6 +6,8 @@ import { NgForm } from '@angular/forms';
 import { ShoppingCart } from '../shopping-cart/shopping-cart';
 import { ShoppingCartItem } from '../shopping-cart/shopping-cart-item';
 import { OrderService } from '../order/order.service';
+import { Order } from '../order/order';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-check-out',
@@ -26,36 +28,30 @@ export class CheckOutComponent implements OnInit, OnDestroy {
   constructor(
     private cartService: ShoppingCartService,
     private orderService: OrderService,
-    private authServ: AuthService
+    private authServ: AuthService,
+    private router: Router
   ) {}
+
 
   ngOnInit() {
     this.cartSubscription = this.cartService
       .getShoppingCart()
       .subscribe((cart: ShoppingCart) => (this.cart = cart));
-    this.authServ.user$.subscribe(user => (this.userId = user.uid));
+      this.authServ.user$.subscribe(user => (this.userId = user.uid));
+
   }
 
   ngOnDestroy() {
     this.cartSubscription.unsubscribe();
   }
   placeOrder() {
-    const order = {
-      date: new Date(),
-      shipping: this.shipping,
-      items: this.cart.shoppingCartItems.map((item: ShoppingCartItem) => {
-        return {
-          poduct: {
-            title: item.product.title,
-            imageUrl: item.product.imageUrl,
-            price: item.product.price
-          },
-          quantity: item.quantity,
-          totalPrice: item.totalPrice
-        };
-      })
-    };
+    const order = new Order(this.userId, this.shipping, this.cart);
+
     console.log('order', order);
-    this.orderService.storeOrder(order);
+    this.orderService.storeOrder(order).
+      then(orderResult => {
+        console.log('order placed - id '  + orderResult.id);
+        this.router.navigate(['order-success', orderResult.id]);
+      });
   }
 }
