@@ -26,8 +26,8 @@ export class OrderService {
     .map(orders =>  {
       const orderArr: Order[] = [];
       orders.forEach( (order) => {
-         const orderRec = order.order;
-         console.log('order Item ', order.order);
+         const orderRec = order['order'];
+         console.log('order Item ', order['order']);
          orderArr.push(orderRec);
 
       });
