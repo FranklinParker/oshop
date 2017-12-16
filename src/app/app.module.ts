@@ -1,3 +1,5 @@
+import { ProductFilterComponent } from './shopping/components/product-filter/product-filter.component';
+import { ProductsComponent } from './shopping/components/products/products.component';
 import { MatComponentsModule } from 'app/mat-components.module';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -23,8 +25,6 @@ import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { MyOrdersComponent } from './my-orders/my-orders.component';
 import { OrderSuccessComponent } from './order-success/order-success.component';
-import { ProductFilterComponent } from './products/product-filter/product-filter.component';
-import { ProductsComponent } from './products/products.component';
 import { AuthGuard } from './shared/services/auth-guard.service';
 import { SharedModule } from './shared/shared.module';
 import { ShippingFormComponent } from './shipping-form/shipping-form.component';
