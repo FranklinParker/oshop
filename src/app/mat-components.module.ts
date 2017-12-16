@@ -17,6 +17,7 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import {MatPaginatorModule} from '@angular/material/paginator';
 
 
+
 @NgModule({
   exports: [
     MatCheckboxModule,
@@ -39,4 +40,4 @@ import {MatPaginatorModule} from '@angular/material/paginator';
   ],
   declarations: []
 })
-export class MatCompenentsModule { }
+export class MatComponentsModule { }
