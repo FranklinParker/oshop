@@ -52,45 +52,9 @@ import { TableDemoComponent } from './table-demo/table-demo.component';
     AngularFireModule.initializeApp(environment.firebase),
     RouterModule.forRoot([
       { path: '', component: ProductsComponent },
-      { path: 'products', component: ProductsComponent },
-      { path: 'shopping-cart', component: ShoppingCartComponent },
       { path: 'login', component: LoginComponent },
       { path: 'table-demo', component: TableDemoComponent },
-      {
-        path: 'order-success/:id',
-        component: OrderSuccessComponent,
-        canActivate: [AuthGuard]
-      },
-      {
-        path: 'check-out',
-        component: CheckOutComponent,
-        canActivate: [AuthGuard]
-      },
-      {
-        path: 'my/orders',
-        component: MyOrdersComponent,
-        canActivate: [AuthGuard]
-      },
-      {
-        path: 'admin/orders',
-        component: AdminOrdersComponent,
-        canActivate: [AuthGuard, AdminAuthGuardService]
-      },
-      {
-        path: 'admin/products/new',
-        component: ProductFormComponent,
-        canActivate: [AuthGuard, AdminAuthGuardService]
-      },
-      {
-        path: 'admin/products/:id',
-        component: ProductFormComponent,
-        canActivate: [AuthGuard, AdminAuthGuardService]
-      },
-      {
-        path: 'admin/products',
-        component: AdminProductsComponent,
-        canActivate: [AuthGuard, AdminAuthGuardService]
-      },
+
     ]),
     AngularFirestoreModule,
     AngularFireAuthModule
