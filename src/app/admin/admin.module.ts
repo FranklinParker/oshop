@@ -1,3 +1,5 @@
+import { AdminAuthGuardService } from './services/admin-auth-guard.service';
+import { AuthGuard } from './../shared/services/auth-guard.service';
 import { MatComponentsModule } from './../mat-components.module';
 import { RouterModule } from '@angular/router';
 import { SharedModule } from './../shared/shared.module';
@@ -13,7 +15,23 @@ import { FormsModule } from '@angular/forms';
     CommonModule,
     FormsModule,
     SharedModule,
-    RouterModule,
+    RouterModule.forChild([
+      {
+        path: 'admin/products/new',
+        component: ProductFormComponent,
+        canActivate: [AuthGuard, AdminAuthGuardService]
+      },
+      {
+        path: 'admin/products/:id',
+        component: ProductFormComponent,
+        canActivate: [AuthGuard, AdminAuthGuardService]
+      },
+      {
+        path: 'admin/products',
+        component: AdminProductsComponent,
+        canActivate: [AuthGuard, AdminAuthGuardService]
+      },
+    ]),
     MatComponentsModule
   ],
   declarations: [
