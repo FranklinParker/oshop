@@ -1,5 +1,5 @@
 import { Subscription } from 'rxjs/Subscription';
-import { ShoppingCartComponent } from './../shopping-cart/shopping-cart.component';
+import { ShoppingCartComponent } from '../shopping/components/shopping-cart/shopping-cart.component';
 import { UserService } from '../shared/services/user.service';
 import { AuthService } from '../shared/services/auth.service';
 import { Component, OnInit } from '@angular/core';
