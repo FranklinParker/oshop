@@ -10,9 +10,9 @@ import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { CustomFormsModule } from 'ng2-validation';
 
 import { environment } from './../environments/environment';
-import { AdminOrdersComponent } from './admin/admin-orders/admin-orders.component';
-import { AdminProductsComponent } from './admin/admin-products/admin-products.component';
-import { ProductFormComponent } from './admin/product-form/product-form.component';
+import { AdminOrdersComponent } from './admin/components/admin-orders/admin-orders.component';
+import { AdminProductsComponent } from './admin/components/admin-products/admin-products.component';
+import { ProductFormComponent } from './admin/components/product-form/product-form.component';
 import { AppComponent } from './app.component';
 import { BsNavbarComponent } from './bs-navbar/bs-navbar.component';
 import { CheckOutComponent } from './check-out/check-out.component';
@@ -29,7 +29,7 @@ import { ShippingFormComponent } from './shipping-form/shipping-form.component';
 import { ShoppingCartSummaryComponent } from './shopping-cart/shopping-cart-summary/shopping-cart-summary.component';
 import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
 import { TableDemoComponent } from './table-demo/table-demo.component';
-import { AdminAuthGuardService } from './user/admin-auth-guard.service';
+import { AdminAuthGuardService } from './admin/services/admin-auth-guard.service';
 
 @NgModule({
   declarations: [
