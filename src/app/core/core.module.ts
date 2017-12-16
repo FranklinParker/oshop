@@ -11,7 +11,6 @@ import { RouterModule } from '@angular/router';
 
 @NgModule({
   imports: [
-    CommonModule,
     SharedModule,
     NgbModule,
     RouterModule.forChild([])
